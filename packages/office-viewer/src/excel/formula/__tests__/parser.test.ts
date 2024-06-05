@@ -86,6 +86,11 @@ test('mix', () => {
   testPrintMatch('A1 + SUM(A2)', '(A1+SUM(A2))');
 });
 
+// TODO: 还不支持这种
+// test('SUM(A1:INDEX(A2))', () => {
+//   testPrintMatch('SUM(A1:INDEX(A2))', '');
+// });
+
 function testRef(input: string, result: Reference) {
   const parser = new Parser(tokenize(input));
   const ast = parser.parse();

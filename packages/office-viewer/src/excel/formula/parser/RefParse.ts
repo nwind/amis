@@ -77,12 +77,18 @@ export class RefParse implements PrefixParse {
       if (nextToken && nextToken.name === 'COLON') {
         const start = token.value;
         parser.next();
-        let end = parser.next().value;
+        const endToken = parser.next();
+        let end = endToken.value;
         // 这里有可能是字符串？比如 A1:'Sheet1'!A2
         if (end.startsWith("'")) {
           // 直接跳到下一个，因为我不大可能两个不同 sheet 的引用连在一起
           end = parser.next().value;
         }
+
+        // TODO: 这里也可能是函数调用，比如 SUM(A1:INDEX(A2))，目前不支持
+        if (endToken.name === 'FUNCTION') {
+        }
+
         const rangeRef = parseRange((start + ':' + end).replace('/$/g', ''));
         token.value = start + ':' + end;
         ref = {

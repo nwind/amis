@@ -54,9 +54,14 @@ for (const line of content.split('\n')) {
   const formula = line.substring(1, line.length - 1).replace(/""/g, '"');
   // console.log(formula);
 
-  const parser = new Parser(tokenize(formula));
-  const ast = parser.parse();
-  addFunctions(ast);
+  try {
+    const parser = new Parser(tokenize(formula));
+    const ast = parser.parse();
+    addFunctions(ast);
+  } catch (error) {
+    console.log(formula);
+    throw new Error(error);
+  }
 }
 
 console.log(usedFunctions.size);

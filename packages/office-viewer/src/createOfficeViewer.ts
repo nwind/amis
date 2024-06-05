@@ -31,6 +31,15 @@ export async function createOfficeViewer(
       await excel.loadCSV(fileExt);
       return excel;
     }
+
+    // 使用 xlsx.js 转换 xls 文件，不支持图片及样式，只能说比没有好
+    if (fileExt === 'xls' && 'XLSX' in window) {
+      const XLSX = (window as any).XLSX;
+      const workbook = XLSX.read(new Uint8Array(docFile), {
+        cellDates: true
+      });
+      docFile = XLSX.writeXLSX(workbook, {type: 'array'});
+    }
   }
 
   const fileType = fileTypeFromArrayBuffer(docFile);

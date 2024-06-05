@@ -1,5 +1,8 @@
 import {Token} from '../tokenizer';
 
+/**
+ * 是否是引用
+ */
 export function tokenIsRef(token?: Token) {
   return (
     token &&
